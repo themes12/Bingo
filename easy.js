@@ -1,13 +1,17 @@
 const table = document.querySelector("#tblBingo")
 const letter = document.querySelectorAll(".letters-bingo")
 
+// const winningPositions = [
+//     [0, 1, 2, 3, 4],
+//     [20, 21, 22, 23, 24],
+//     [0, 5, 10, 15, 20],
+//     [4, 9, 14, 19, 24],
+//     [0, 6, 12, 18, 24],
+//     [4, 8, 12, 16, 20]
+// ]
+
 const winningPositions = [
-    [0, 1, 2, 3, 4],
-    [20, 21, 22, 23, 24],
-    [0, 5, 10, 15, 20],
-    [4, 9, 14, 19, 24],
-    [0, 6, 12, 18, 24],
-    [4, 8, 12, 16, 20]
+    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
 ]
 
 const maxNumber = 100
@@ -156,7 +160,7 @@ function matchWin() {
             if(cell[index].classList.contains("strickout")) ite++;
         })
 
-        if(ite === 5) {
+        if(ite === 25) {
             let indexWin = winningPositions.indexOf(combination);
             winningPositions.splice(indexWin, 1)
         }
