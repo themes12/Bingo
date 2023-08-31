@@ -48,10 +48,13 @@
     display: inline;
 }
 
-.cell-even {
-    background-color: black;
-}
-
-.cell-odd {
-    background-color: white;
-}
+#tblBingo {
+    border-right: 3px solid #3f9dec;
+    border-bottom: 3px solid #3f9dec;
+  }
+  
+  #tblBingo  td,
+  th {
+    border-top: 3px solid #3f9dec;
+    border-left: 3px solid #3f9dec;
+  }

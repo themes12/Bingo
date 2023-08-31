@@ -20,6 +20,8 @@ const minNumber = -100
 let iterator = 0;
 let isAnswer = false;
 
+updateDiamond()
+
 for (i = 0; i < 5; i++) {
     let tr = document.createElement("tr")
     table.appendChild(tr)
@@ -34,26 +36,26 @@ for (i = 0; i < 5; i++) {
         let div = document.createElement("div")
         div.classList.add("cell-format")
 
-        if(i % 2 === 0){
-            if(j % 2 === 0){
-                div.classList.add("cell-even")
-            }else{
-                div.classList.add("cell-odd")
-            }
-        }else{
-            if(j % 2 === 0){
-                div.classList.add("cell-odd")
-            }else{
-                div.classList.add("cell-even")
-            }
-        }
+        // if(i % 2 === 0){
+        //     if(j % 2 === 0){
+        //         div.classList.add("cell-even")
+        //     }else{
+        //         div.classList.add("cell-odd")
+        //     }
+        // }else{
+        //     if(j % 2 === 0){
+        //         div.classList.add("cell-odd")
+        //     }else{
+        //         div.classList.add("cell-even")
+        //     }
+        // }
 
         td.appendChild(div)
         tr.appendChild(td)
 
         if(i === 2 && j === 2){
             td.classList.add("strickout");
-            td.children[0].textContent = "X"
+            td.children[0].innerHTML = '<b style="font-size: 30px;">FREE</b>'
         }
 
         iterator++;
@@ -108,7 +110,7 @@ $("#check-answer").on("click", function() {
         alert("ต้องตอบคำถาม")
     }
     
-    if(parseInt(input) === answer){
+    if(parseInt(input) === answer && !isAnswer){
         Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -133,13 +135,30 @@ cell.forEach(e => {
     })
 })
 
+function updateDiamond() {
+    const diamond = localStorage.getItem('diamond');
+    $("#diamond").html(diamond)
+}
+
+function viewAnswer() {
+    let diamond = localStorage.getItem('diamond')
+    if(diamond > 0){
+        diamond = localStorage.getItem('diamond')
+        diamond--;
+        localStorage.setItem('diamond' , diamond)
+        alert(answer)
+        updateDiamond()
+        $("#answer-input").val(answer)
+    }
+}
+
 function addBingo(element) {
     element.classList.add("strickout");
     element.children[0].textContent = "X"
 
     if(matchWin()) {
         animateCSS('#bingo', 'bounceIn')
-        setTimeout(function(){ location.reload() }, 5000)
+        // setTimeout(function(){ location.reload() }, 5000)
     }else{
         generateProblem()
     }

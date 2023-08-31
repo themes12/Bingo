@@ -19,6 +19,9 @@ const maxNumber = 100
 let iterator = 0;
 let isAnswer = false;
 
+let countCorrect = 0;
+localStorage.setItem('diamond', 0);
+
 for (i = 0; i < 5; i++) {
     let tr = document.createElement("tr")
     table.appendChild(tr)
@@ -33,26 +36,27 @@ for (i = 0; i < 5; i++) {
         let div = document.createElement("div")
         div.classList.add("cell-format")
 
-        if(i % 2 === 0){
-            if(j % 2 === 0){
-                div.classList.add("cell-even")
-            }else{
-                div.classList.add("cell-odd")
-            }
-        }else{
-            if(j % 2 === 0){
-                div.classList.add("cell-odd")
-            }else{
-                div.classList.add("cell-even")
-            }
-        }
+        // if(i % 2 === 0){
+        //     if(j % 2 === 0){
+        //         div.classList.add("cell-even")
+        //     }else{
+        //         div.classList.add("cell-odd")
+        //     }
+        // }else{
+        //     if(j % 2 === 0){
+        //         div.classList.add("cell-odd")
+        //     }else{
+        //         div.classList.add("cell-even")
+        //     }
+        // }
 
         td.appendChild(div)
         tr.appendChild(td)
 
         if(i === 2 && j === 2){
+            console.log(td.children[0])
             td.classList.add("strickout");
-            td.children[0].textContent = "X"
+            td.children[0].innerHTML = '<b style="font-size: 30px;">FREE</b>'
         }
 
         iterator++;
@@ -91,6 +95,19 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
     node.addEventListener('animationend', handleAnimationEnd, {once: true});
 });
 
+function updateDiamond() {
+    let diamond = localStorage.getItem('diamond');
+    console.log(diamond)
+    if(countCorrect === 12){
+        diamond++
+        localStorage.setItem('diamond', diamond);
+        countCorrect = 0;
+    }
+    diamond = localStorage.getItem('diamond');
+    console.log(diamond)
+    $("#diamond").html(diamond ?? 0)
+}
+
 function generateProblem() {
     const selectedOperator = Math.floor(Math.random()*operators.length);
     const sign = operators[selectedOperator].sign                  //this will give you the sign
@@ -112,7 +129,10 @@ $("#check-answer").on("click", function() {
         alert("ต้องตอบคำถาม")
     }
     
-    if(parseInt(input) === answer){
+    if(parseInt(input) === answer && !isAnswer){
+        countCorrect++
+        console.log(countCorrect)
+        updateDiamond();
         Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -143,7 +163,7 @@ function addBingo(element) {
 
     if(matchWin()) {
         animateCSS('#bingo', 'bounceIn')
-        setTimeout(function(){ location.reload() }, 5000)
+        // setTimeout(function(){ location.reload() }, 5000)
     }else{
         generateProblem()
     }
